@@ -1,13 +1,24 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"time"
+)
 
 func main() {
-	// Week 04: ここに課題のコードを記述してください
-	// 詳細な課題内容はLMSで確認してください
-	
+
+	http.HandleFunc("/info", func(w http.ResponseWriter, r *http.Request) {
+
+		now := time.Now().Format("15:04:05")
+
+		ua := r.UserAgent()
+
+		fmt.Fprintf(w, "今の時刻は %s で，利用しているブラウザは「%s」ですね。", now, ua)
+	})
+
 	fmt.Println("Week 04 課題")
-	
-	// 以下に実装してください
-	
+	fmt.Println("Server running at http://localhost:8080/info")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
